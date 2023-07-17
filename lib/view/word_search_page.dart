@@ -96,7 +96,7 @@ class _WordSearchPageState extends State<WordSearchPage> {
                       child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            list = WordSearch(widget.gridList, word, widget.row,
+                            list = wordSearch(widget.gridList, word, widget.row,
                                 widget.column);
                           });
                         },
@@ -147,8 +147,8 @@ class _WordSearchPageState extends State<WordSearchPage> {
     );
   }
 
-  // ignore: non_constant_identifier_names
-  WordSearch(List twoDList, String word, int r, int c) {
+  //ignore: non_constant_identifier_names
+  wordSearch(List twoDList, String word, int r, int c) {
     List index = [];
     int flag = 0;
 
@@ -218,6 +218,72 @@ class _WordSearchPageState extends State<WordSearchPage> {
         }
       }
     }
+    for (int i = r - 1; i >= 0; i--) {
+      for (int j = c - 1; j >= 0; j--) {
+        if (twoDList[i][j] == word[0]) {
+          if (i + 1 >= wordLength) {
+            int inc = 0;
+            int k;
+            for (k = i; k > i - wordLength; k--) {
+              if (twoDList[k][j] == word[inc]) {
+                flag = 1;
+                inc++;
+              } else {
+                flag = 0;
+                break;
+              }
+            }
+            if (flag == 1) {
+              for (int l = i; l > k; l--) {
+                index.add((j * r) + l);
+              }
+            }
+          }
+          if (j + 1 >= wordLength) {
+            int inc = 0;
+            int k;
+            for (k = j; k > j - wordLength; k--) {
+              if (twoDList[i][k] == word[inc]) {
+                flag = 1;
+                inc++;
+              } else {
+                flag = 0;
+                break;
+              }
+            }
+            if (flag == 1) {
+              for (int l = j; l > k; l--) {
+                index.add((l * r) + i);
+              }
+            }
+          }
+
+          if (j + 1 >= wordLength && i + 1 >= wordLength) {
+            int inc = 0;
+            int k;
+            int m = i;
+            for (k = j; k > j - wordLength && m > i - wordLength; k--) {
+              if (twoDList[m][k] == word[inc]) {
+                flag = 1;
+                inc++;
+              } else {
+                flag = 0;
+                break;
+              }
+              m--;
+            }
+            if (flag == 1) {
+              int cnt = 0;
+              for (int l = j; l > k; l--) {
+                index.add(((l * r) + i) - cnt);
+                cnt++;
+              }
+            }
+          }
+        }
+      }
+    }
+
     return index;
   }
 }

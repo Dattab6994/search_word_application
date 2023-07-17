@@ -41,16 +41,17 @@ class _GridViewPageState extends State<GridViewPage> {
                 flex: 5,
                 child: GridView.count(
                   crossAxisCount: r,
-                  crossAxisSpacing: 30,
-                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
                   children: List.generate(
                     r * c,
                     (index) {
                       return Center(
                         child: TextFormField(
+                          maxLength: 1,
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return "";
+                            if (value!.isEmpty  && int.parse(value) < 2) {
+                              return "please enter only one value";
                             }
                           },
                           decoration: InputDecoration(
