@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:search_word_application/view/word_search_page.dart';
 
 class GridViewPage extends StatefulWidget {
@@ -40,7 +41,7 @@ class _GridViewPageState extends State<GridViewPage> {
               Expanded(
                 flex: 5,
                 child: GridView.count(
-                  crossAxisCount: r,
+                  crossAxisCount: c,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                   children: List.generate(
@@ -50,10 +51,14 @@ class _GridViewPageState extends State<GridViewPage> {
                         child: TextFormField(
                           maxLength: 1,
                           validator: (value) {
-                            if (value!.isEmpty  && int.parse(value) < 2) {
-                              return "please enter only one value";
+                            if (value!.isEmpty && int.parse(value) < 2) {
+                              return "please enter only one character";
                             }
                           },
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[a-zA-Z]")),
+                          ],
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
